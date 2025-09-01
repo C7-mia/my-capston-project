@@ -1,6 +1,4 @@
 {
-  "short_name": "WeatherDash",
-  "name": "Weather Dashboard",
   "icons": [
     {
       "src": "/logo.png",
@@ -12,9 +10,5 @@
       "type": "image/x-icon",
       "sizes": "32x32"
     }
-  ],
-  "start_url": "/",
-  "display": "standalone",
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff"
-    }
+  ]
+}
