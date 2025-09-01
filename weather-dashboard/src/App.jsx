@@ -5,17 +5,17 @@ import ErrorMessage from "./components/ErrorMessage";
 import RecentSearches from "./components/RecentSearches";
 import { getCurrentWeatherByCity } from "./services/weatherApi";
 import { cToF } from "./utils/units";
+import Loader from "./components/Loader";  
 
 const REFRESH_MINUTES = Number(import.meta.env.VITE_REFRESH_MINUTES || 5);
 
 export default function App() {
-  const [city, setCity] = useState("Kampala");         // default city
-  const [units, setUnits] = useState("metric");        // "metric" | "imperial"
+  const [city, setCity] = useState("Kampala");
+  const [units, setUnits] = useState("metric");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [weather, setWeather] = useState(null);
   const [recent, setRecent] = useState(() => {
-    // restore recent searches
     const saved = localStorage.getItem("recentCities");
     return saved ? JSON.parse(saved) : [];
   });
@@ -33,9 +33,8 @@ export default function App() {
       setWeather(data);
       setCity(cityName);
 
-      // manage recents (keep last 5 unique)
-      setRecent(prev => {
-        const next = [cityName, ...prev.filter(c => c.toLowerCase() !== cityName.toLowerCase())].slice(0, 5);
+      setRecent((prev) => {
+        const next = [cityName, ...prev.filter((c) => c.toLowerCase() !== cityName.toLowerCase())].slice(0, 5);
         localStorage.setItem("recentCities", JSON.stringify(next));
         return next;
       });
@@ -46,13 +45,11 @@ export default function App() {
     }
   };
 
-  // initial fetch
   useEffect(() => {
     fetchWeather(city);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [units]);
 
-  // auto refresh
   useEffect(() => {
     if (!REFRESH_MINUTES || REFRESH_MINUTES <= 0) return;
     const ms = REFRESH_MINUTES * 60 * 1000;
@@ -66,7 +63,7 @@ export default function App() {
   };
 
   const handleToggleUnits = () => {
-    setUnits(prev => (prev === "metric" ? "imperial" : "metric"));
+    setUnits((prev) => (prev === "metric" ? "imperial" : "metric"));
   };
 
   const handleManualRefresh = () => fetchWeather(city);
@@ -113,7 +110,7 @@ export default function App() {
 
           <div className="mt-6">
             {loading ? (
-              <div className="text-center py-10 text-slate-600">Loading current weather…</div>
+              <Loader />  
             ) : weather ? (
               <WeatherCard
                 city={weather.name}
@@ -136,4 +133,4 @@ export default function App() {
       </footer>
     </div>
   );
-                               }
+    }
