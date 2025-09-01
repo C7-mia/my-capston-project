@@ -1,28 +1,31 @@
 import axios from "axios";
 
-const API = "https://api.openweathermap.org/data/2.5/weather";
+const BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
 
 export async function getCurrentWeatherByCity(city, units = "metric") {
-  const key = import.meta.env.VITE_WEATHER_API_KEY;
-  if (!key) {
+  const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
+
+  if (!API_KEY) {
     throw new Error("Missing VITE_WEATHER_API_KEY in .env");
   }
+
   try {
-    const { data } = await axios.get(API, {
+    const response = await axios.get(BASE_URL, {
       params: {
         q: city,
         units,
-        appid: key
+        appid: API_KEY
       }
     });
-    return data;
+
+    return response.data;
   } catch (err) {
-    if (err?.response?.status === 404) {
-      throw new Error("City not found. Please check the name and try again.");
+    if (err.response?.status === 404) {
+      throw new Error(`City "${city}" not found. Please check the name and try again.`);
     }
-    if (err?.code === "ERR_NETWORK") {
+    if (err.code === "ERR_NETWORK") {
       throw new Error("Network error. Check your internet connection.");
     }
-    throw new Error("Failed to fetch weather. Please try again.");
+    throw new Error(err.message || "Failed to fetch weather. Please try again.");
   }
-  }
+        }
