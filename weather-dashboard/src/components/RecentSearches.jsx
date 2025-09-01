@@ -1,17 +1,18 @@
 export default function RecentSearches({ items = [], onPick }) {
   if (!items.length) return null;
+
   return (
     <div className="flex flex-wrap gap-2">
-      {items.map((c) => (
+      {items.map((city, idx) => (
         <button
-          key={c}
-          onClick={() => onPick(c)}
-          className="px-3 py-1 rounded-full border border-slate-300 hover:bg-slate-100 text-sm"
-          title={`Search ${c}`}
+          key={`${city}-${idx}`}
+          onClick={() => onPick(city)}
+          className="px-3 py-1 rounded-full border border-blue-300 bg-white hover:bg-blue-50 text-sm text-blue-700"
+          title={`Search ${city}`}
         >
-          {c}
+          {city}
         </button>
       ))}
     </div>
   );
-      }
+          }
