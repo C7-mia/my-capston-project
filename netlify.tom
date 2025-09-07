@@ -1,4 +1,0 @@
-[build]
-  base = "weather-dashboard"
-  publish = "weather-dashboard/dist"
-  command = "npm run build"
