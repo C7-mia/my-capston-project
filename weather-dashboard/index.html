@@ -6,10 +6,13 @@
     <title>Weather Dashboard</title>
   </head>
   <body>
-    <!-- React will mount here -->
     <div id="root"></div>
-
-    <!-- Entry point for Vite + React -->
     <script type="module" src="/src/main.jsx"></script>
+
+    <!-- Development-only script (e.g., debug tools) -->
+    <% if (import.meta.env.DEV) { %>
+      <script src="/dev.js"></script>
+    <% } %>
   </body>
-</html>
+    </html>
+  
